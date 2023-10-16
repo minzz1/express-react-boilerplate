@@ -71,6 +71,7 @@ export const loginSuccess = async (req, res) => {
       email,
       name,
       auth,
+      id:_id
     });
   } catch (error) {
     console.log(error);
