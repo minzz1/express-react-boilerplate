@@ -78,3 +78,33 @@ export const loginSuccess = async (req, res) => {
     return res.status(500).json({ ok: false });
   }
 };
+
+export const postAddMinssion = async (req, res) => {
+  try{
+    //req.body.userId
+    //req.body.missionId
+    const { body: { userId, missionId}} = req
+
+    const existing = await User.findById(userId)
+    if(!existing){
+      return res.json({ result: 1, message:"로그인 정보가 없습니다."})
+    }
+
+    //이미 완료된 QR코드 일때 
+    if(existing.missionCompleted.includes(missionId)){
+      return res.json({result:3, message: "인증완료된 QR코드입니다."})
+    }
+
+    //에러처리 정해진 QR코드가 아닐때 에러처리
+    const qrData = ["sun","rain","cloudy"]
+    if(!qrData.includes(missionId)){
+      return res.json({result:2, message: "유효하지 않은 QR코드입니다."})
+    }
+
+    const updatedUser = await User.updateMany({_id: userId}, {missionCompleted: missionId})
+
+    return res.status(200).json({result: 0, message: "QR 인증성공", updatedUser})
+  }catch{
+    console.log(error)
+  }
+}

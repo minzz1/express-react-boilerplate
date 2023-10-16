@@ -9,9 +9,21 @@ import { missionComplated } from "../api";
 export default function Qr() {
   const [prevResult, setPrevResult] = useState(null);
   const {user} = useUser();
-  const userId = user?.di
+  const userId = user?.id
 
-  const {mutate} = useMutation(missionComplated)
+  const {mutate} = useMutation(missionComplated,{
+    onSuccess: (data) => {
+      if(data.result === 0){
+        alert(data.message)
+      }else if(data.result === 1){
+        alert(data.message)
+      }else if(data.result === 2){
+        alert(data.message)
+      }else {
+        return
+      }
+    }
+  })
 
   //qr 읽었을때 실행
   const handleSuccess = (result) => {

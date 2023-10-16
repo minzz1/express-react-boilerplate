@@ -42,15 +42,15 @@ export async function loginSuccess() {
 
 export async function missionComplated(userId, missionId) {
   console.log(userId, missionId)
-  // return await fetch('api/users/mission/add',{
-  //   method:"POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   credentials: "include",
-  //   body: JSON.stringify({
-  //     missionId,
-  //     userId
-  //   })
-  // }).then((res) => res.json())
+  return await fetch('api/users/mission/add',{
+    method:"POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      missionId,
+      userId
+    })
+  }).then((res) => res.json())
 }
