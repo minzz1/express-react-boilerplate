@@ -62,7 +62,7 @@ export const loginSuccess = async (req, res) => {
     const id = tempData?.id;
 
     const loggedInUser = await User.findById(id);
-    const { username, mobile, email, name, auth } = loggedInUser;
+    const { username, mobile, email, name, auth, _id, missionCompleted } = loggedInUser;
 
     return res.status(200).json({
       ok: true,
@@ -71,7 +71,8 @@ export const loginSuccess = async (req, res) => {
       email,
       name,
       auth,
-      id:_id
+      id:_id,
+      missionCompleted
     });
   } catch (error) {
     console.log(error);
@@ -101,8 +102,10 @@ export const postAddMinssion = async (req, res) => {
       return res.json({result:2, message: "유효하지 않은 QR코드입니다."})
     }
 
-    const updatedUser = await User.updateMany({_id: userId}, {missionCompleted: missionId})
+    const updatedUser = await User.findByIdAndUpdate(userId, {missionCompleted: missionId})
 
+
+    
     return res.status(200).json({result: 0, message: "QR 인증성공", updatedUser})
   }catch{
     console.log(error)
